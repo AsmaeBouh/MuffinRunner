@@ -1,18 +1,39 @@
+/*
+ * Copyright (c) 2014. William Mora
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package com.gamestudio24.martianrun.actors;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.gamestudio24.martianrun.box2d.RunnerUserData;
+import com.gamestudio24.martianrun.enums.Difficulty;
+import com.gamestudio24.martianrun.enums.GameState;
+import com.gamestudio24.martianrun.utils.AssetsManager;
+import com.gamestudio24.martianrun.utils.AudioUtils;
 import com.gamestudio24.martianrun.utils.Constants;
+import com.gamestudio24.martianrun.utils.GameManager;
 
 public class Runner extends GameActor {
 
-    private boolean jumping;
     private boolean dodging;
+    private boolean jumping;
     private boolean hit;
     private Animation runningAnimation;
     private TextureRegion jumpingTexture;
@@ -20,21 +41,21 @@ public class Runner extends GameActor {
     private TextureRegion hitTexture;
     private float stateTime;
 
+    private Sound jumpSound;
+    private Sound hitSound;
+
+    private int jumpCount;
+
     public Runner(Body body) {
         super(body);
-
-        TextureAtlas textureAtlas = new TextureAtlas(Constants.CHARACTERS_ATLAS_PATH);
-        TextureRegion[] runningFrames = new TextureRegion[Constants.RUNNER_RUNNING_REGION_NAMES.length];
-        for (int i = 0; i < Constants.RUNNER_RUNNING_REGION_NAMES.length; i++) {
-            String path = Constants.RUNNER_RUNNING_REGION_NAMES[i];
-            runningFrames[i] = textureAtlas.findRegion(path);
-        }
-        runningAnimation = new Animation(0.1f, runningFrames);
+        jumpCount = 0;
+        runningAnimation = AssetsManager.getAnimation(Constants.RUNNER_RUNNING_ASSETS_ID);
         stateTime = 0f;
-        jumpingTexture = textureAtlas.findRegion(Constants.RUNNER_JUMPING_REGION_NAME);
-        dodgingTexture = textureAtlas.findRegion(Constants.RUNNER_DODGING_REGION_NAME);
-        hitTexture = textureAtlas.findRegion(Constants.RUNNER_HIT_REGION_NAME);
-
+        jumpingTexture = AssetsManager.getTextureRegion(Constants.RUNNER_JUMPING_ASSETS_ID);
+        dodgingTexture = AssetsManager.getTextureRegion(Constants.RUNNER_DODGING_ASSETS_ID);
+        hitTexture = AssetsManager.getTextureRegion(Constants.RUNNER_HIT_ASSETS_ID);
+        jumpSound = AudioUtils.getInstance().getJumpSound();
+        hitSound = AudioUtils.getInstance().getHitSound();
     }
 
     @Override
@@ -55,7 +76,9 @@ public class Runner extends GameActor {
             batch.draw(jumpingTexture, x, y, width, screenRectangle.height);
         } else {
             // Running
-            stateTime += Gdx.graphics.getDeltaTime();
+            if (GameManager.getInstance().getGameState() == GameState.RUNNING) {
+                stateTime += Gdx.graphics.getDeltaTime();
+            }
             batch.draw(runningAnimation.getKeyFrame(stateTime, true), x, y, width, screenRectangle.height);
         }
     }
@@ -65,17 +88,19 @@ public class Runner extends GameActor {
         return (RunnerUserData) userData;
     }
 
-    public void landed() {
-        jumping = false;
-    }
-
     public void jump() {
 
         if (!(jumping || dodging || hit)) {
             body.applyLinearImpulse(getUserData().getJumpingLinearImpulse(), body.getWorldCenter(), true);
             jumping = true;
+            AudioUtils.getInstance().playSound(jumpSound);
+            jumpCount++;
         }
 
+    }
+
+    public void landed() {
+        jumping = false;
     }
 
     public void dodge() {
@@ -87,6 +112,7 @@ public class Runner extends GameActor {
 
     public void stopDodge() {
         dodging = false;
+        // If the runner is hit don't force him back to the running position
         if (!hit) {
             body.setTransform(getUserData().getRunningPosition(), 0f);
         }
@@ -99,10 +125,24 @@ public class Runner extends GameActor {
     public void hit() {
         body.applyAngularImpulse(getUserData().getHitAngularImpulse(), true);
         hit = true;
+        AudioUtils.getInstance().playSound(hitSound);
     }
 
     public boolean isHit() {
         return hit;
     }
 
+    public void onDifficultyChange(Difficulty newDifficulty) {
+        setGravityScale(newDifficulty.getRunnerGravityScale());
+        getUserData().setJumpingLinearImpulse(newDifficulty.getRunnerJumpingLinearImpulse());
+    }
+
+    public void setGravityScale(float gravityScale) {
+        body.setGravityScale(gravityScale);
+        body.resetMassData();
+    }
+
+    public int getJumpCount() {
+        return jumpCount;
+    }
 }
