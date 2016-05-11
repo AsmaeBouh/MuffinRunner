@@ -44,4 +44,11 @@ public class EnemyUserData extends UserData {
         return animationAssetId;
     }
 
+    @Override
+    public String toString() {
+        return "EnemyUserData{" +
+                "linearVelocity=" + linearVelocity +
+                ", animationAssetId='" + animationAssetId + '\'' +
+                '}';
+    }
 }

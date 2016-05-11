@@ -73,6 +73,7 @@ public class Constants {
     public static final String RUNNER_HIT_REGION_NAME = "alienBeige_hit";
     public static final String RUNNER_JUMPING_REGION_NAME = "alienBeige_jump";
 
+
     public static final String[] RUNNING_SMALL_ENEMY_REGION_NAMES = new String[] {"ladyBug_walk1", "ladyBug_walk2"};
     public static final String[] RUNNING_LONG_ENEMY_REGION_NAMES = new String[] {"barnacle_bite1", "barnacle_bite2"};
     public static final String[] RUNNING_BIG_ENEMY_REGION_NAMES = new String[] {"spider_walk1", "spider_walk2"};

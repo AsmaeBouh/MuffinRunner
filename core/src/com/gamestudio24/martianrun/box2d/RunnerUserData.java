@@ -57,4 +57,12 @@ public class RunnerUserData extends UserData {
         return Constants.RUNNER_HIT_ANGULAR_IMPULSE;
     }
 
+    @Override
+    public String toString() {
+        return "RunnerUserData{" +
+                "runningPosition=" + runningPosition +
+                ", dodgePosition=" + dodgePosition +
+                ", jumpingLinearImpulse=" + jumpingLinearImpulse +
+                '}';
+    }
 }

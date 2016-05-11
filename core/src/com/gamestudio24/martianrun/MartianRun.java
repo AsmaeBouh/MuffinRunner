@@ -21,6 +21,7 @@ public class MartianRun extends Game {
 
 	@Override
 	public void create() {
+		//if(GameEventListener)
 		AssetsManager.loadAssets();
 		setScreen(new GameScreen());
 	}

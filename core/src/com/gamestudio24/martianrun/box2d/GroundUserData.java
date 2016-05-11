@@ -25,4 +25,8 @@ public class GroundUserData extends UserData {
         userDataType = UserDataType.GROUND;
     }
 
+    @Override
+    public String toString() {
+        return "GroundUserData{}";
+    }
 }
