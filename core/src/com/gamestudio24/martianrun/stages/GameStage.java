@@ -31,6 +31,8 @@ import com.gamestudio24.martianrun.enums.Difficulty;
 import com.gamestudio24.martianrun.enums.GameState;
 import com.gamestudio24.martianrun.utils.*;
 
+import javax.management.RuntimeErrorException;
+
 public class GameStage extends Stage implements ContactListener {
 
     private static final int VIEWPORT_WIDTH = Constants.APP_WIDTH;
@@ -64,8 +66,7 @@ public class GameStage extends Stage implements ContactListener {
     private Vector3 touchPoint;
 
     public GameStage() {
-        super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT,
-                new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
+        super(new ScalingViewport(Scaling.stretch, VIEWPORT_WIDTH, VIEWPORT_HEIGHT, new OrthographicCamera(VIEWPORT_WIDTH, VIEWPORT_HEIGHT)));
         setUpCamera();
         setUpStageBase();
         setUpGameLabel();
@@ -361,6 +362,8 @@ public class GameStage extends Stage implements ContactListener {
             case PAUSED:
                 touched = pauseButton.getBounds().contains(x, y);
                 break;
+            default:
+                throw new RuntimeException("Unexpected case in switch conditions");
         }
 
         return touched || soundButton.getBounds().contains(x, y)
