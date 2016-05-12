@@ -35,19 +35,16 @@ public class AssetsManager {
     private static BitmapFont smallestFont;
     private static BitmapFont largeFont;
 
-    private AssetsManager() {
-
-    }
-
+    /**
+     * Crée toutes les textures map basées sur les constantes du jeu et sur le texture Atlas
+     * Le Texture Atlas c'est le fichier texte dans lequel est contenu le découpage des sprites
+     */
     public static void loadAssets() {
 
         // Background
-        texturesMap.put(Constants.BACKGROUND_ASSETS_ID,
-                new TextureRegion(new Texture(Gdx.files.internal(Constants.BACKGROUND_IMAGE_PATH))));
-
+        texturesMap.put(Constants.BACKGROUND_ASSETS_ID, new TextureRegion(new Texture(Gdx.files.internal(Constants.BACKGROUND_IMAGE_PATH))));
         // Ground
-        texturesMap.put(Constants.GROUND_ASSETS_ID,
-                new TextureRegion(new Texture(Gdx.files.internal(Constants.GROUND_IMAGE_PATH))));
+        texturesMap.put(Constants.GROUND_ASSETS_ID, new TextureRegion(new Texture(Gdx.files.internal(Constants.GROUND_IMAGE_PATH))));
 
         textureAtlas = new TextureAtlas(Constants.SPRITES_ATLAS_PATH);
 
@@ -97,13 +94,29 @@ public class AssetsManager {
 
     }
 
+    /**
+     * Getter d'une textureRegion à partir d'une clef
+     * @param key
+     * @return la textureRegion demandé
+     */
     public static TextureRegion getTextureRegion(String key) {
         return texturesMap.get(key);
     }
-
+    /**
+     * Getter d'une animationMap à partir d'une clef
+     * @param key
+     * @return l'animationMap demandé
+     */
     public static Animation getAnimation(String key) {
         return animationsMap.get(key);
     }
+
+    /**
+     * Crée une animationMap à partir de la textureAtlas et du nom de la région à animer
+     * @param textureAtlas
+     * @param regionNames
+     * @return
+     */
 
     private static Animation createAnimation(TextureAtlas textureAtlas, String[] regionNames) {
 
@@ -118,21 +131,42 @@ public class AssetsManager {
 
     }
 
+    /**
+     * Getter de textureAtlas
+     * @return textureAtlas
+     */
     public static TextureAtlas getTextureAtlas() {
         return textureAtlas;
     }
 
+    /**
+     * Getter de smallFont
+     * @return smallFont
+     */
     public static BitmapFont getSmallFont() {
         return smallFont;
     }
 
+    /**
+     * Getter de largeFont
+     * @return largeFont
+     */
     public static BitmapFont getLargeFont() {
         return largeFont;
     }
 
+    /**
+     * Getter de smallestFont
+     * @return smallestFont
+     */
     public static BitmapFont getSmallestFont() {
         return smallestFont;
     }
+
+    /**
+     * Libère la mémoire pour les éléments aloués suivants :
+     * textureAtlas, les trois fonts, la texturesMap et l'animationMap
+     */
 
     public static void dispose() {
         textureAtlas.dispose();

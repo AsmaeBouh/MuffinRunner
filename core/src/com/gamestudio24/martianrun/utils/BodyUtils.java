@@ -20,6 +20,8 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.gamestudio24.martianrun.box2d.UserData;
 import com.gamestudio24.martianrun.enums.UserDataType;
 
+import javax.management.RuntimeErrorException;
+
 public class BodyUtils {
 
     public static boolean bodyInBounds(Body body) {
@@ -27,6 +29,7 @@ public class BodyUtils {
 
         switch (userData.getUserDataType()) {
             case RUNNER:
+                break;
             case ENEMY:
                 return body.getPosition().x + userData.getWidth() / 2 > 0;
         }
