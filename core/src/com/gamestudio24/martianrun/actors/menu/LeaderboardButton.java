@@ -39,6 +39,7 @@ public class LeaderboardButton extends GameButton {
         return Constants.LEADERBOARD_REGION_NAME;
     }
 
+
     @Override
     public void act(float delta) {
         super.act(delta);

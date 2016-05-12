@@ -92,19 +92,19 @@ public class GameManager implements GameEventListener {
     public void submitScore(int score) {
         gameEventListener.submitScore(score);
 
-        if (score > 5000 && !isAchievementUnlocked(get5kClubAchievementId())) {
+        if (score > 1 && !isAchievementUnlocked(get5kClubAchievementId())) {
             unlockAchievement(get5kClubAchievementId());
         }
 
-        if (score > 10000 && !isAchievementUnlocked(get10kClubAchievementId())) {
+        if (score > 1 && !isAchievementUnlocked(get10kClubAchievementId())) {
             unlockAchievement(get10kClubAchievementId());
         }
 
-        if (score > 25000 && !isAchievementUnlocked(get25kClubAchievementId())) {
+        if (score > 1 && !isAchievementUnlocked(get25kClubAchievementId())) {
             unlockAchievement(get25kClubAchievementId());
         }
 
-        if (score > 50000 && !isAchievementUnlocked(get50kClubAchievementId())) {
+        if (score > 1 && !isAchievementUnlocked(get50kClubAchievementId())) {
             unlockAchievement(get50kClubAchievementId());
         }
     }
@@ -242,7 +242,7 @@ public class GameManager implements GameEventListener {
             return;
         }
 
-        if (getAchievementCount(get500JumpStreetAchievementId()) > 500) {
+        if (getAchievementCount(get500JumpStreetAchievementId()) > 1) {
             return;
         }
 

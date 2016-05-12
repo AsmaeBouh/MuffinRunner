@@ -59,6 +59,24 @@ public class WorldUtils {
         return body;
     }
 
+    public  static Body createChoice (World world, int i ){
+            float x = Constants.RUNNER_X+1.3f;
+            BodyDef bodyDef = new BodyDef();
+            bodyDef.type = BodyDef.BodyType.StaticBody;//         DynamicBody;
+            bodyDef.position.set(new Vector2(x*i , Constants.RUNNER_Y+5));
+            PolygonShape shape = new PolygonShape();
+            shape.setAsBox(Constants.RUNNER_WIDTH , Constants.RUNNER_HEIGHT);
+            Body body = world.createBody(bodyDef);
+            //body.setGravityScale(Constants.RUNNER_GRAVITY_SCALE);
+            body.createFixture(shape, Constants.RUNNER_DENSITY);
+            body.resetMassData();
+            body.setUserData(new RunnerUserData(Constants.RUNNER_WIDTH*3, Constants.RUNNER_HEIGHT*3));
+            shape.dispose();
+            return body;
+
+    }
+
+
     public static Body createEnemy(World world) {
         EnemyType enemyType = RandomUtils.getRandomEnemyType();
         BodyDef bodyDef = new BodyDef();

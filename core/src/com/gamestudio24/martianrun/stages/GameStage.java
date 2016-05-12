@@ -40,6 +40,7 @@ public class GameStage extends Stage implements ContactListener {
     private Ground ground;
     private Runner runner;
 
+
     private final float TIME_STEP = 1 / 300f;
     private float accumulator = 0f;
 
@@ -115,6 +116,7 @@ public class GameStage extends Stage implements ContactListener {
         Rectangle gameLabelBounds = new Rectangle(0, getCamera().viewportHeight * 5 / 8,getCamera().viewportWidth, getCamera().viewportHeight / 4);
         addActor(new AboutLabel(gameLabelBounds));
     }
+
 
     /**
      * @return void
@@ -296,6 +298,17 @@ public class GameStage extends Stage implements ContactListener {
         setUpRunner();
         setUpPauseLabel();
         createEnemy();
+    }
+
+    private void setUpChoice() {
+        if (runner != null) {
+            runner.remove();
+        }
+        for (int i = 2 ; i<=6 ;i+=2){
+            runner = new Runner(WorldUtils.createChoice(world,i));
+            addActor(runner);
+
+        }
     }
 
     /**
@@ -698,18 +711,26 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
+
     /**
      * Classe Interne ::
      * On gère le bouton Classement à l'aide de l'interface défini dans actors.menu.LeaderboardButton
      */
 
-    private class GameLeaderboardButtonListener
-            implements LeaderboardButton.LeaderboardButtonListener {
-
-        @Override
+    private class GameLeaderboardButtonListener implements LeaderboardButton.LeaderboardButtonListener {
+                @Override
         public void onLeaderboard() {
-            GameManager.getInstance().displayLeaderboard();
+             if(GameManager.getInstance().getGameState() == GameState.CHOICE){
+                onGameLeaderboard();
+            }
+
+            clear();
+
+            onGameLeaderboard();
+
         }
+
+
 
     }
 
@@ -730,6 +751,26 @@ public class GameStage extends Stage implements ContactListener {
                 setUpGameLabel();
                 onGameOver();
             }
+        }
+
+    }
+
+    private class GameShareButtonListener implements ShareButton.ShareButtonListener {
+
+        @Override
+        public void onShare() {
+            GameManager.getInstance().share();
+        }
+
+    }
+
+    private class GameAchievementsButtonListener
+            implements AchievementsButton.AchievementsButtonListener {
+
+        @Override
+        public void onAchievements() {
+
+
         }
 
     }
@@ -774,6 +815,17 @@ public class GameStage extends Stage implements ContactListener {
         setUpGameLabel();
         setUpAboutText();
         setUpAbout();
+    }
+
+
+    public void onGameLeaderboard() {
+        GameManager.getInstance().setGameState(GameState.CHOICE);
+        clear();
+        setUpStageBase();
+        setUpGameLabel();
+        setUpChoice();
+        setUpAbout();
+
     }
 
 }
