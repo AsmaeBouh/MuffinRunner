@@ -22,9 +22,9 @@ public class Constants {
 
     public static final String GAME_NAME = "NINJA RUN!";
 
-    public static final int APP_WIDTH = 1200;
-    public static final int APP_HEIGHT = 900;
-    public static final float WORLD_TO_SCREEN =64;
+    public static final int APP_WIDTH = 800;
+    public static final int APP_HEIGHT = 480;
+    public static final float WORLD_TO_SCREEN =32;
 
     public static final Vector2 WORLD_GRAVITY = new Vector2(0, -10);
 

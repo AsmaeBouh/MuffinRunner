@@ -211,7 +211,16 @@ public class GameStage extends Stage implements ContactListener {
         createEnemy();
     }
 
+    private void setUpChoice() {
+        if (runner != null) {
+            runner.remove();
+        }
+        for (int i = 2 ; i<=6 ;i+=2){
+            runner = new Runner(WorldUtils.createChoice(world,i));
+            addActor(runner);
 
+        }
+    }
     private void setUpRunner() {
         if (runner != null) {
             runner.remove();
@@ -565,7 +574,7 @@ public class GameStage extends Stage implements ContactListener {
         clear();
         setUpStageBase();
         setUpGameLabel();
-        setUpRunner();
+        setUpChoice();
         setUpAbout();
 
     }
