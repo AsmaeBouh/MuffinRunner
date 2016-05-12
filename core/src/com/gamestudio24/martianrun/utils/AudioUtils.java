@@ -31,20 +31,43 @@ public class AudioUtils {
     private static final String MUSIC_ON_PREFERENCE = "music_on";
     private static final String SOUND_ON_PREFERENCE = "sound_on";
 
+    /**
+     * On déclare le constructeur en privé pour qu'il ne soit pas utilisé en dehors l'utilisation static
+     */
     private AudioUtils() {
     }
+
+    /**
+     * Renvoie l'instance du Singleton
+     * @return l'instance
+     */
 
     public static AudioUtils getInstance() {
         return ourInstance;
     }
 
+    /**
+     * Getter de music
+     * @return music
+     */
+
     public Music getMusic() {
         return music;
     }
 
+    /**
+     * Getter de Preferences
+     * @return Preferences(GameManager.PREFERENCES_NAME)
+     */
+
     private Preferences getPreferences() {
         return Gdx.app.getPreferences(GameManager.PREFERENCES_NAME);
     }
+
+    /**
+     * Initialisation du singleton
+     * On crée
+     */
 
     public void init() {
         music = Gdx.audio.newMusic(Gdx.files.internal(Constants.GAME_MUSIC));

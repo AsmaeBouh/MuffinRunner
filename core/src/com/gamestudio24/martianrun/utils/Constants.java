@@ -20,7 +20,7 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Constants {
 
-    public static final String GAME_NAME = "Martian Run!";
+    public static final String GAME_NAME = "CandyJellyBean";
 
     public static final int APP_WIDTH = 800;
     public static final int APP_HEIGHT = 480;
@@ -105,8 +105,8 @@ public class Constants {
 
     public static final String FONT_NAME = "roboto_bold.ttf";
 
-    public static final String ABOUT_TEXT = "Developed by: @gamestudio24\nPowered by: " +
-            "@libgdx\nGraphics: @kenneywings\nMusic: @kmacleod";
+    public static final String ABOUT_TEXT = "Developed by: @TeamCandyJellyBeans\nPowered by: " +
+            "@libgdx\nCode: AsmaeBouhouili LéaRozenSudry et JulienRousset";
     public static final String SHARE_MESSAGE_PREFIX = "Check out " + GAME_NAME + " %s";
     public static final String SHARE_TITLE = "Share!";
     public static final String PAUSED_LABEL = "Paused";
