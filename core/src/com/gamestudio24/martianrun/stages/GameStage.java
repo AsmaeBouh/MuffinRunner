@@ -40,6 +40,7 @@ public class GameStage extends Stage implements ContactListener {
     private Ground ground;
     private Runner runner;
 
+
     private final float TIME_STEP = 1 / 300f;
     private float accumulator = 0f;
 
@@ -92,6 +93,7 @@ public class GameStage extends Stage implements ContactListener {
                 getCamera().viewportWidth, getCamera().viewportHeight / 4);
         addActor(new AboutLabel(gameLabelBounds));
     }
+
 
     /**
      * These menu buttons are always displayed
@@ -208,6 +210,7 @@ public class GameStage extends Stage implements ContactListener {
         setUpPauseLabel();
         createEnemy();
     }
+
 
     private void setUpRunner() {
         if (runner != null) {
@@ -478,13 +481,21 @@ public class GameStage extends Stage implements ContactListener {
 
     }
 
-    private class GameLeaderboardButtonListener
-            implements LeaderboardButton.LeaderboardButtonListener {
+    private class GameLeaderboardButtonListener implements LeaderboardButton.LeaderboardButtonListener {
 
         @Override
         public void onLeaderboard() {
-            GameManager.getInstance().displayLeaderboard();
+             if(GameManager.getInstance().getGameState() == GameState.CHOICE){
+                onGameLeaderboard();
+            }
+
+            clear();
+
+            onGameLeaderboard();
+
         }
+
+
 
     }
 
@@ -518,7 +529,8 @@ public class GameStage extends Stage implements ContactListener {
 
         @Override
         public void onAchievements() {
-            GameManager.getInstance().displayAchievements();
+
+
         }
 
     }
@@ -545,6 +557,17 @@ public class GameStage extends Stage implements ContactListener {
         setUpGameLabel();
         setUpAboutText();
         setUpAbout();
+    }
+
+
+    public void onGameLeaderboard() {
+        GameManager.getInstance().setGameState(GameState.CHOICE);
+        clear();
+        setUpStageBase();
+        setUpGameLabel();
+        setUpRunner();
+        setUpAbout();
+
     }
 
 }
